@@ -3,6 +3,7 @@ import { NewTaskData } from "./task/task.model";
 
 @Injectable({ providedIn: 'root'} )
 export class TasksService {
+    private completedTasks: ({ id: string; userId: string; title: string; summary: string; dueDate: string; })[] = [];
     private tasks = [
         {
             id: 't1',
@@ -31,9 +32,10 @@ export class TasksService {
 
     constructor() {
         const tasks = localStorage.getItem('tasks');
-        
-        if (tasks) {
+        const completedTasks = localStorage.getItem('completedTasks');
+        if (tasks && completedTasks) {
             this.tasks = JSON.parse(tasks);
+            this.completedTasks = JSON.parse(completedTasks);
         } else {
             this.saveTasks();
         }
@@ -41,6 +43,10 @@ export class TasksService {
 
     getUserTasks(userId: string) {
         return this.tasks.filter(task => task.userId === userId);
+    }
+
+    getUserCompletedTasks(userId: string) {
+        return this.completedTasks.filter(task => task.userId === userId);
     }
 
     addTask(taskData:NewTaskData, userId: string) {
@@ -55,11 +61,22 @@ export class TasksService {
     }
 
     removeTask(id: string) {
+        this.addTaskToCompleatedTasks(id);
         this.tasks = this.tasks.filter(task => task.id !== id);
         this.saveTasks();
     }
 
     private saveTasks() {
         localStorage.setItem('tasks', JSON.stringify(this.tasks));
+    }
+
+    addTaskToCompleatedTasks(taskId: string) {
+        const task = this.tasks.find(task => task.id === taskId);
+        if (task) {
+            this.completedTasks.push(task);
+            console.log(this.completedTasks);
+            console.log(task);
+            localStorage.setItem('completedTasks', JSON.stringify(this.completedTasks));
+        }
     }
 }

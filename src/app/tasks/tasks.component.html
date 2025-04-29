@@ -6,14 +6,25 @@
     <header>
         <h2 class="user-name">{{ name }}'s Tasks</h2>
         <menu>
+            <button (click)="backToUserTasks()">User Tasks</button>
+            <button (click)="showCompleatedTasks()">Compleated Tasks</button>
             <button (click)="onStartSTask()" >Add Task</button>
         </menu>
     </header>
 
-    <ul>
+
+    <ul *ngIf="watchCompletedTasks" class="completed-tasks-list">
+        @for (task of selectedUserCompletedTasks; track task.id) {
+            <li>
+                <app-task [buttonVisiblity]="watchCompletedTasks" [task]="task" />
+            </li>
+        }
+    </ul>
+
+    <ul *ngIf="!watchCompletedTasks" class="tasks-list">
         @for (task of selectedUserTasks; track task.id) {
             <li>
-                <app-task [task]="task" />
+                <app-task [buttonVisiblity]="watchCompletedTasks" [task]="task" />
             </li>
         }
     </ul>

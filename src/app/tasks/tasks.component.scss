@@ -7,7 +7,7 @@
   }
   
   header {
-    display: flex;
+    display: block;
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 2rem;
@@ -19,6 +19,7 @@
     font-size: 0.9rem;
     width: 60%;
     text-wrap: balance;
+    margin-bottom: 0.9rem;;
   }
   
   menu {
@@ -34,6 +35,7 @@
     border: none;
     padding: 0.35rem 0.8rem;
     font-size: 0.9rem;
+    margin: 2px;
   }
   
   menu button:hover,
@@ -55,6 +57,7 @@
   @media (min-width: 768px) {
     h2 {
       font-size: 1.25rem;
+      margin-bottom: 1rem;;
     }
   
     menu {
